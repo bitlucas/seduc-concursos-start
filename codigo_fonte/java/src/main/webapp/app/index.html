@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Simas</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="shortcut icon" href="../content/images/logo_prod.png" />
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="../bower_components/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../bower_components/admin_let/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../bower_components/admin_let/css/skins/skin-blue.min.css">
+
+    <link rel="stylesheet" href="../bower_components/admin_let/css/style.css">
+
+    <!-- iCheck -->
+    <link rel="stylesheet" href="../plugins/iCheck/flat/blue.css">
+
+    <link rel="stylesheet" href="../bower_components/please-wait/build/please-wait.css">
+
+    <!-- Main App Style -->
+    <link rel="stylesheet" href="../content/css/main.css">
+
+  </head>
+
+  <body class="hold-transition skin-blue sidebar-mini" ng-app="main">
+    <div class="wrapper" >
+
+      <script type="text/javascript" src="../bower_components/please-wait/build/please-wait.min.js"></script>
+      <!--
+      <script type="text/javascript">
+        window.loading_screen = window.pleaseWait({logo: "../content/images/aguarde.png", backgroundColor: '#3c8dbc', loadingHtml: "<div class='spinner'><div class='rect1'></div><div class='rect2'></div><div class='rect3'></div><div class='rect4'></div><div class='rect5'></div></div>"});
+      </script>
+    -->
+
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="../index.html" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini">
+            <img src="../content/images/adabas02.jpg" style="height: 45px;"/>
+          </span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg">
+            <img src="../content/images/adabas02.jpg" style="height: 45px;"/>
+            <b>Simas</b>
+          </span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+
+              <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                  <img ng-if="usuarioComplemento.complemento.imagem != null" ng-src="data:image/jpg;base64,{{usuarioComplemento.complemento.imagem}}" class="user-image" alt="User Image"/>
+
+                  <img ng-if="usuarioComplemento.complemento.imagem == null" src="../content/images/usuario_sem_foto.png" class="user-image" alt="User Image"/>
+
+                  <span class="hidden-xs">{{usuarioComplemento.user.login}}</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+
+                    <img ng-if="usuarioComplemento.complemento.imagem != null" ng-src="data:image/jpg;base64,{{usuarioComplemento.complemento.imagem}}" class="img-circle" alt="User Image"/>
+
+                    <img ng-if="usuarioComplemento.complemento.imagem == null" src="../content/images/usuario_sem_foto.png" class="img-circle" alt="User Image"/>
+
+                    <p>
+                      {{usuarioComplemento.user.nome}}
+                      <small>
+                        <strong>{{usuarioComplemento.user.siglaOrgao}}</strong>
+                      </small>
+                    </p>
+                  </li>
+
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-right">
+                      <a href="#" class="btn btn-default btn-flat" ng-click="logout()">Sair</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li class="gd-menu">
+                <a href="../../governodigital/index.html" target="_blank">
+                  <img src="../content/images/logo_gd_color.png" alt="Governo Digital "/>
+                </a>
+              </li>
+              <li class="gd-menu">
+                <a href="http://www.pa.gov.br" target="_blank">
+                  <img src="../content/images/logo_governo.png" alt="Governo Digital "/>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- Sidebar user panel -->
+          <div class="user-panel">
+            <div class="pull-left image">
+
+              <img ng-if="usuarioComplemento.complemento.imagem != null" ng-src="data:image/jpg;base64,{{usuarioComplemento.complemento.imagem}}" class="img-circle" alt="User Image"/>
+
+              <img ng-if="usuarioComplemento.complemento.imagem == null" src="../content/images/usuario_sem_foto.png" class="img-circle" alt="User Image"/>
+
+            </div>
+            <div class="pull-left info">
+              <p>{{usuarioComplemento.user.login}}</p>
+              <a>{{usuarioComplemento.user.siglaOrgao}}</a>
+            </div>
+          </div>
+
+          <!-- /.search form -->
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
+
+            <li class="header">MENU</li>
+
+            <li class="active">
+              <a ui-sref="dashboard_modulos">
+                <i class="fa fa-dashboard"></i>
+                <span>Módulos</span>
+              </a>
+            </li>
+
+
+            <li class="active treeview">
+
+              <a href="">
+                <i class="fa fa-dashboard"></i>
+                <span>Cadastros</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+
+              
+
+              <ul class="treeview-menu">
+                <li class="active">
+                  <a ui-sref="estados">
+                    <i class="fa fa-circle-o"></i>
+                    Estado
+                  </a>
+                </li>
+              </ul>
+
+            </li>
+
+          </ul>
+
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <ol class="breadcrumb">
+            <li>
+              <a href="#">
+                <i class="fa fa-home"></i>
+                Home</a>
+            </li>
+            <li class="active">Dashboard</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+          <div ui-view></div>
+
+        </section>
+        <!-- /.content -->
+
+      </div>
+      <!-- /.content-wrapper -->
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Versão</b>
+          1.0
+        </div>
+        <a href="http://www.prodepa.gov.br" target="_blank" title="PRODEPA">
+          <img src="../content/images/selo_prodepa.gif">
+        </a>
+        &nbsp;
+        <a href="http://www.pa.gov.br" target="_blank" title="Governo do Pará">
+          <img src="../content/images/selo_pa.png">
+        </a>
+
+        <strong>Copyright &copy; 2016</strong>
+      </footer>
+
+      <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery 2.1.4 -->
+    <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+
+    <!-- jQuery UI 1.11.4 -->
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+    </script>
+
+    <!-- Bootstrap 3.3.5 -->
+    <script src="../bower_components/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="../bower_components/jquery-maskmoney/dist/jquery.maskMoney.min.js"></script>
+
+    <!-- Slimscroll -->
+    <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+    <!-- FastClick -->
+    <script src="../plugins/fastclick/fastclick.min.js"></script>
+
+    <script src="../plugins/iCheck/icheck.min.js"></script>
+
+    <!-- AdminLTE App -->
+    <script src="../bower_components/admin_let/js/app.min.js"></script>
+
+    <!-- AdminLTE dashboard demo (This is only for demo purposes)
+    <script src="../bower_components/admin_let/js/pages/dashboard.js"></script>
+    -->
+
+    <!-- AdminLTE for demo purposes
+    <script src="../bower_components/admin_let/js/demo.js"></script>
+    -->
+
+    <script src="../bower_components/lodash/dist/lodash.min.js"></script>
+
+    <!-- Angular Libs -->
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script src="../bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="../bower_components/angular-i18n/angular-locale_pt-br.js"></script>
+
+    <!-- Google Charts For AngularJS-->
+    <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
+
+    <!-- Modules -->
+    <script src="../app/app.module.js"></script>
+
+    <!-- Utils -->
+    <script src="../app/components/util/AuthorizationError.js"></script>
+
+    <!-- Constants -->
+    <script src="../app/app.constants.js"></script>
+
+
+    <!-- Config -->
+    <script src="../app/app.state.js"></script>
+    <script src="../app/components/util/httpInterceptorProvider-config.js"></script>
+
+    <!-- Services -->
+    <!--
+    <script src="../scripts/services/PaginationService.js"></script>
+    <script src="../scripts/services/DetailService.js"></script>
+    <script src="../scripts/services/CrudService.js"></script>
+    -->
+    <script src="../app/components/popup/PopupService.js"></<script>
+
+    </script>
+
+    <!-- Factory -->
+    <script src="../app/components/util/ExceptionHandler.js"></script>
+
+    <!-- Directivas -->
+    <script src="../app/components/directives/ngRepeatPostRender.js"></script>
+    <script src="../app/components/directives/picklist.js"></script>
+
+    <!-- Controllers -->
+    <script src="../app/home/HomeController.js"></script>
+
+    <!--Estado -->
+    <script src="../app/estado/EstadoStates.js"></script>
+    <script src="../app/estado/EstadoControllers.js"></script>
+    <script src="../app/estado/EstadoService.js"></script>
+
+    <!-- Demais Casos de Uso -->
+
+  </body>
+
+</html>

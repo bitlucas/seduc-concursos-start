@@ -1,0 +1,100 @@
+
+Para implantar/atualizar este sistema devemos:
+
+1. pre-requisitos:
+1.1. rotinas
+  -funcoes de suporte;
+  -rotinas utilitarias;
+1.2. extensoes (instalacao manual)
+  -postgis; 
+    
+2. Backup do banco de dados "NOME_BANCO" do servidor SERVIDOR-DBXX;
+
+  pg_dump -v -b -Fc -h SERVIDOR-DBXX NOME_BANCO -U USUARIO_MANUTENCAO -f bk-NOME_BANCO-YYYYMMDD.dmp 2>>backup.log
+
+3. Backup da aplicação, ou seja copia dos arquivos:
+3.1 Jboss 4
+  Do diretorio "/opt/as/jboss/server/AMBIENTE/deploy":
+  NOME_SISTEMA-ds.xml
+  NOME_SISTEMA.ear
+
+3.2 Jboss 7
+  Do diretorio "/opt/as/jboss/standalone/deployments":
+  NOME_SISTEMA.war
+
+4. Criar o banco, esquema e usuarios da aplicacao:
+
+Obs: Antes de executar o script e necessario alterar a senha nele.
+
+  psql -h SERVIDOR-DBXX -d NOME_BANCO -U USUARIO_MANUTENCAO -ef configurar_banco.sql 2>>configurar_banco.log
+
+5. Criar/alterar os objetos do banco:
+
+  psql -h SERVIDOR-DBXX -d NOME_BANCO -U USUARIO_MANUTENCAO -ef alteracoes_banco.sql 2>>alteracoes_banco.log
+
+6. Configurar o Controle de acesso:
+
+  psql -h SERVIDOR-DBXX -d corporativo -U USUARIO_MANUTENCAO -ef controle_acesso.sql 2>>controle_acesso.log
+
+6.1 Configurar o usuario de aplicacao para o web-service:
+
+  psql -h SERVIDOR-DBXX -d corporativo -U USUARIO_MANUTENCAO -ef carga_usuarios_ws.sql 2>>carga_usuarios_ws.log
+
+7. Fazer a carga de dados: 
+
+  psql -h SERVIDOR-DBXX -d NOME_BANCO -U USUARIO_MANUTENCAO -ef carga_dados.sql 2>>carga_dados.log
+
+8. Configurar o datasource:
+
+Jboss 4
+  criar o arquivo NOME_SISTEMA-ds.xml no diretorio /opt/as/jboss/server/AMBIENTE/deploy, com a configuracao:
+
+CONFIGURACAO_DATASOURCE
+
+Jboss 7
+  Adicionar a configuracao na tag <datasources> do arquivo "/opt/as/jboss/standalone/configuration/standalone.xml":
+
+CONFIGURACAO_DATASOURCE
+
+9. Configurar o security domain:
+Jboss 7
+  Adicionar a configuracao na tag <security-domains> do arquivo "/opt/as/jboss/standalone/configuration/standalone.xml":
+  Obs: Verificar se ele precisa de datasource, e se este está configurado.
+  
+CONFIGURACAO_SECURITY_DOMAIN
+
+10. Copiar os arquivos abaixo para o diretorio
+jboss 4:
+  "/opt/as/jboss/server/AMBIENTE/deploy":
+    NOME_SISTEMA.ear
+
+jboss 7:
+  "/opt/as/jboss/standalone/deployments":
+    NOME_SISTEMA.war
+
+11. Configurar o balanceador:
+  Criar o arquivo PROJETO_SVN.conf no diretorio /var/www/DIRETORIO_SITE_DO_AMBIENTE/conf.d, com a configuracao abaixo:
+
+<location /CONTEXTO >
+  ProxyPass http://SERVIDOR-APLXX:8080/CONTEXTO retry=0
+  ProxypassReverse http://SERVIDOR-APLXX:8080/CONTEXTO
+  order allow,deny
+
+  REGRA_DE_ACESSO_DO_AMBIENTE
+  
+</location>
+
+  Forcar o reload no apache.
+  Para os sistemas fora do Governo Digital, também é necessário configurar o site dos sistemas
+  (/var/www/DIRETORIO_SITE_DO_AMBIENTE/config.xml), adicionando a configuracao abaixo na tag <projetos>:
+
+  <item>
+    <title>TITULO</title>
+    <body>DESCRICAO</body>
+    <image>images/logotipos/IMAGEM.png</image>
+    <url_sistema>https://SITE_DO_AMBIENTE/CONTEXTO</url_sistema>
+    <orgao>CLIENTE</orgao>
+  </item>
+
+12. Testar.
+

@@ -1,0 +1,60 @@
+<div  ng-if="estadoEnable">
+
+	<div ng-show="cs.message" class="alert {{cs.messageClass}}">
+		<div ng-repeat="m in cs.message">
+			<i class="fa fa-times-circle-o"></i>
+			<strong > {{m.message}} </strong>
+		</div>
+	</div>
+
+	<div class="box box-primary">
+		<div class="box-header with-border">
+			<h3 class="box-title" ng-if="estado.id == null">Cadastro de Estado</h3>
+			<h3 class="box-title" ng-if="estado.id != null">Alteração de Estado</h3>
+		</div>
+		<form name="estadoForm" class="form-horizontal" role="form" novalidate>
+			<div class="box-body">
+
+				<div class="form-group">
+					<label for="id" class="col-lg-2 control-label">ID:</label>
+					<div class="col-lg-5">
+						<span>{{estado.id}}</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="nome" class="col-lg-2 control-label">Nome:</label>
+					<div class="col-lg-5">
+						<span>{{estado.nome}}</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="sigla" class="col-lg-2 control-label">Sigla:</label>
+					<div class="col-lg-5">
+						<span>{{estado.sigla}}</span>
+					</div>
+				</div>
+
+				<div class="checkbox col-lg-offset-2" ng-show="cs.dea.anReferencia != null"  >
+					<label>
+						<input name="check" type="checkbox" ng-model="cs.check"> Declaro que as despesas em questão referem-se aos valores gastos, porém não pagos, no exercício de {{cs.dea.anReferencia}}.
+					</label>
+				</div>
+
+			</div>
+
+			<div class="box-footer">
+
+				<div class="form-group">
+			    <div class="col-lg-offset-2 col-lg-10">
+
+			        <span id="cancel" name="cancel" class="btn btn-default" ui-sref="estados"><span class="glyphicon glyphicon-remove-sign"></span> Voltar </span>
+
+			    </div>
+			</div>
+
+		</form>
+	</div>
+
+</div>
